@@ -118,25 +118,7 @@ export async function settleFunds({
   }
   let referrerQuoteWallet: PublicKey | null = null;
   if (market.supportsReferralFees) {
-    const usdt = TOKEN_MINTS.find(({ name }) => name === 'USDT');
-    const usdc = TOKEN_MINTS.find(({ name }) => name === 'USDC');
-    if (
-      process.env.REACT_APP_USDT_REFERRAL_FEES_ADDRESS &&
-      usdt &&
-      market.quoteMintAddress.equals(usdt.address)
-    ) {
-      referrerQuoteWallet = new PublicKey(
-        process.env.REACT_APP_USDT_REFERRAL_FEES_ADDRESS,
-      );
-    } else if (
-      process.env.REACT_APP_USDC_REFERRAL_FEES_ADDRESS &&
-      usdc &&
-      market.quoteMintAddress.equals(usdc.address)
-    ) {
-      referrerQuoteWallet = new PublicKey(
-        process.env.REACT_APP_USDC_REFERRAL_FEES_ADDRESS,
-      );
-    }
+    referrerQuoteWallet = quoteCurrencyAccountPubkey;
   }
   const {
     transaction: settleFundsTransaction,
